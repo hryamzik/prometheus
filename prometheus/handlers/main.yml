@@ -12,7 +12,7 @@
   systemd: name=prometheus state=reloaded daemon_reload=yes
 
 - name: prometheus check rules
-  shell: "test -e {{ prometheus_rule_path }}/*.conf && {{ prometheus_install_path }}/prometheus/promtool check-rules {{ prometheus_rule_path }}/*.conf"
+  shell: "test -e {{ prometheus_rule_path }}/*.conf && {{ prometheus_install_path }}/prometheus/promtool check{{ '-' if prometheus_install_version is version('2.0.0', '<') else ' ' }}rules {{ prometheus_rule_path }}/*.conf"
   register: prometheus_check_rules
   changed_when: prometheus_check_rules.rc !=0
   failed_when: no
