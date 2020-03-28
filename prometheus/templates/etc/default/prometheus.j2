@@ -1,4 +1,4 @@
-{% if prometheus_version | version_compare('2.0.0', '<') %}
+{% if prometheus_install_version is version('2.0.0', '<') %}
 PROMETHEUS_OPTS="-config.file {{ prometheus_config_folder }}/prometheus.yml \
                  -storage.local.path {{ prometheus_db_path }}/data \
                  -alertmanager.url {{ prometheus_alertmanager_url }} \
