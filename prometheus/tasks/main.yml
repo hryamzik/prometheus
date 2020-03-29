@@ -116,18 +116,23 @@
   tags: conf
 
 - name: create required dirs
-  file: dest="{{ prometheus_config_folder }}/{{ item.path|regex_replace('^'+prometheus_config_templates_path+'/', '') }}" state=directory owner="{{ prometheus_user }}" group="{{ prometheus_group }}"
+  file: dest="{{ prometheus_config_folder }}/{{ item.path|regex_replace('^'+prometheus_config_templates_path+'/', '') }}"
+        state=directory
+        owner="{{ prometheus_user }}"
+        group="{{ prometheus_group }}"
   with_items: "{{ list_config_dirs.files }}"
   tags: conf
 
 - name: get list of remote config files with ansible
   find:
     path: "{{ prometheus_config_folder }}"
+    recurse: yes
   register: list_remote
   tags: conf
 
 - name: put prometeus config files
-  template: dest="{{ prometheus_config_folder }}/{{ item }}" src="{{ prometheus_config_templates_path }}/{{ item }}" owner="{{ prometheus_user }}" group="{{ prometheus_group }}"
+  template: dest="{{ prometheus_config_folder }}/{{ item }}" src="{{ prometheus_config_templates_path }}/{{ item }}"
+            owner="{{ prometheus_user }}" group="{{ prometheus_group }}"
   with_items: "{{ list_local.files|map(attribute='path')|map('regex_replace','^'+prometheus_config_templates_path+'/','')|list }}"
   notify:
       - prometheus check rules
@@ -137,7 +142,9 @@
 
 - name: remove remote configs not presented locally
   file: dest={{ prometheus_config_folder }}/{{ item }} state=absent
-  with_items: "{{ list_remote.files|map(attribute='path')|list|difference(list_local.files|map(attribute='path')|list) }}"
+  with_items: "{{ list_remote.files|map(attribute='path')|map('regex_replace','^'+prometheus_config_folder+'/','')|list|difference(
+                  list_local.files|map(attribute='path')|map('regex_replace','^'+prometheus_config_templates_path+'/','')|list) }}"
+
   notify:
       - prometheus check rules
       - prometheus check config
