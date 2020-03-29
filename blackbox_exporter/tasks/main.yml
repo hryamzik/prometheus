@@ -98,6 +98,7 @@
     owner: "{{ blackbox_user }}"
     group: "{{ blackbox_group }}"
   notify: "{{ 'systemd' if blackbox_service_mgr == 'systemd' else 'initd' }} restart blackbox_exporter"
+  tags: conf
 
 - name: start blackbox_exporter
   service:
