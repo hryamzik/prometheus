@@ -99,6 +99,7 @@
     owner: "{{ alertmanager_user }}"
     group: "{{ alertmanager_group }}"
   notify: "{{ 'systemd' if alertmanager_service_mgr == 'systemd' else 'initd' }} restart alertmanager"
+  tags: conf
 
 - name: start alertmanager
   service:
