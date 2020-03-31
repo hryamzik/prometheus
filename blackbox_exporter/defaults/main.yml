@@ -1,11 +1,12 @@
 ---
 blackbox_group: blackbox_exporter
 blackbox_user:  blackbox_exporter
+blackbox_service_name:  blackbox_exporter
 
 # folder to download and untar blackbox_exporter's binary
 blackbox_install_path:         /opt
 # folder to store configuration files
-blackbox_config_folder:        /etc/blackbox_exporter
+blackbox_config_folder:        /etc/{{ blackbox_service_name }}
 # specify path to configuration file if you're not going to use a default one
 blackbox_config_template_path: "{{ role_path }}/templates/blackbox_exporter_default/blackbox_exporter.yml.j2"
 

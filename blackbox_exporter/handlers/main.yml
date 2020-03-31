@@ -1,11 +1,11 @@
 ---
-- name: systemd restart blackbox_exporter
+- name: systemd restart {{ blackbox_service_name }}
   systemd:
-    name: blackbox_exporter
+    name: "{{ blackbox_service_name }}"
     state: restarted
     daemon_reload: yes
 
-- name: initd restart blackbox_exporter
+- name: initd restart {{ blackbox_service_name }}
   service:
-    name: blackbox_exporter
+    name: "{{ blackbox_service_name }}"
     state: restarted

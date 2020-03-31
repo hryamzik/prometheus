@@ -17,7 +17,7 @@
 # Source function library.
 . /etc/init.d/functions
 
-NAME=blackbox_exporter
+NAME={{ blackbox_service_name }}
 DESC="Blackbox probing of endpoints over HTTP, HTTPS, DNS, TCP and ICMP"
 DAEMON={{ blackbox_install_path }}/blackbox_exporter/blackbox_exporter
 USER={{ blackbox_user }}
