@@ -10,6 +10,7 @@ EnvironmentFile=/etc/default/alertmanager
 User={{ alertmanager_user }}
 ExecStart={{ alertmanager_install_path }}/alertmanager/alertmanager $ALERTMANAGER_OPTS
 ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target

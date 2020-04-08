@@ -12,7 +12,7 @@
 
 - name: fail if current version doesn't match expected version
   fail: msg="version check failed"
-  when: current_version.version|version_compare(prometheus_install_version, '!=')
+  when: current_version.version is version(prometheus_install_version, '!=')
 
 - name: check prometheus username
   shell: "ps -o ruser= -p $(ps aux | grep -v grep | grep prometheus.yml | awk '{print $2}')"
