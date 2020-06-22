@@ -13,7 +13,7 @@
 
 - name: fail if current version doesn't match expected version
   fail: msg="version check failed"
-  when: current_version.version|version_compare(node_exporter_install_version, '!=')
+  when: current_version.version is version(node_exporter_install_version, '!=')
 
 - name: check node_exporter username
   shell: bash -c "ps -p $(ps aux | grep -v grep | grep node_exporter | awk '{print $2}') -o ruser="

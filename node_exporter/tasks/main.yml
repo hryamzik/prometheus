@@ -55,7 +55,7 @@
 
 - name: download and untar binary
   unarchive:
-    src:  "https://github.com/prometheus/node_exporter/releases/download/{{ 'v' if node_exporter_install_version|version_compare('0.13.0', '>=') else '' }}{{ node_exporter_install_version }}/node_exporter-{{ node_exporter_install_version }}.{{ node_exporter_platform_suffix }}.tar.gz"
+    src:  "https://github.com/prometheus/node_exporter/releases/download/{{ 'v' if node_exporter_install_version is version('0.13.0', '>=') else '' }}{{ node_exporter_install_version }}/node_exporter-{{ node_exporter_install_version }}.{{ node_exporter_platform_suffix }}.tar.gz"
     dest: "{{ node_exporter_install_path }}"
     copy: no
     list_files: yes
