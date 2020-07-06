@@ -136,7 +136,7 @@
   with_items: "{{ list_local.files|map(attribute='path')|map('regex_replace','^'+prometheus_config_templates_path+'/','')|list }}"
   notify:
       - prometheus check rules
-      - prometheus check config
+      - prometheus check config{{ ' v1' if prometheus_install_version|string is version('2.0.0', '<') else '' }}
       - "{{ 'systemd' if prometheus_service_mgr == 'systemd' else 'initd' }} reload prometheus"
   tags: conf
 
