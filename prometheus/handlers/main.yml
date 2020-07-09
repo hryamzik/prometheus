@@ -12,7 +12,7 @@
   systemd: name=prometheus state=reloaded daemon_reload=yes
 
 - name: prometheus check rules
-  shell: "test -e {{ prometheus_rule_path }}/*.conf && {{ prometheus_install_path }}/prometheus/promtool check{{ '-' if prometheus_install_version is version('2.0.0', '<') else ' ' }}rules {{ prometheus_rule_path }}/*.conf"
+  shell: "ls {{ prometheus_rule_path }}| grep -q '\\.conf$' && {{ prometheus_install_path }}/prometheus/promtool check{{ '-' if prometheus_install_version is version('2.0.0', '<') else ' ' }}rules {{ prometheus_rule_path }}/*.conf"
   register: prometheus_check_rules
   changed_when: prometheus_check_rules.rc !=0
   failed_when: no
@@ -20,7 +20,7 @@
 
 - name: prometheus show rules errors
   debug: var=prometheus_check_rules.stderr.split('\n')
-  failed_when: prometheus_check_rules.rc != 0 and prometheus_check_rules.stdout != "" 
+  failed_when: prometheus_check_rules.rc != 0 and prometheus_check_rules.stderr != "" 
 
 - name: prometheus check config v1
   shell: "{{ prometheus_install_path }}/prometheus/promtool check-config {{ prometheus_config_folder }}/prometheus.yml"
